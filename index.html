@@ -8,42 +8,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">Graphics X Bros</div>
-        <nav>
+    <header class="hero">
+        <h1 class="logo-large">Graphics X Bros</h1>
+        <p class="hero-subtitle">Elevating Your Visual Identity</p>
+    </header>
+
+    <div class="navbar-wrapper">
+        <nav class="navbar">
             <button class="nav-btn active" data-target="services">Services</button>
             <button class="nav-btn" data-target="portfolio">Portfolio</button>
             <button class="nav-btn" data-target="contact">Contact Us</button>
         </nav>
-    </header>
+    </div>
 
     <main class="content-container">
         <!-- Services Section -->
         <section id="services" class="tab-content active">
             <div class="section-header">
                 <h1>What We Provide</h1>
-                <p>Professional editing and design services to elevate your brand.</p>
+                <p>Professional editing and design services with meticulous attention to detail. We offer all sorts of services to cater to your specific needs.</p>
             </div>
+            
             <div class="services-grid">
                 <div class="service-card">
                     <h3>Video Editing</h3>
-                    <p>High-quality edits to make your footage cinematic, engaging, and professional.</p>
+                    <p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing, add dynamic transitions, and perform professional sound mixing to keep your audience hooked.</p>
                 </div>
                 <div class="service-card">
                     <h3>Graphic Designing</h3>
-                    <p>Modern logos, branding identities, and completely bespoke graphic assets.</p>
+                    <p>Modern logos, branding identities, and completely bespoke graphic assets. We help translate your vision into a striking, consistent visual language across all platforms.</p>
                 </div>
                 <div class="service-card">
                     <h3>Photo Editing</h3>
-                    <p>Color grading, retouching, and composition to bring out the very best in your shots.</p>
+                    <p>Color grading, retouching, and composition to bring out the very best in your shots. From subtle enhancements to complete manipulation, we make every pixel count.</p>
                 </div>
                 <div class="service-card">
                     <h3>Thumbnail Making</h3>
-                    <p>Ultra-clickable and expressive thumbnails tailored for YouTube success.</p>
+                    <p>Ultra-clickable and expressive thumbnails tailored for YouTube success. We understand the algorithm and use high-contrast visuals to drastically bump up your Click-Through Rate.</p>
                 </div>
                 <div class="service-card">
                     <h3>Poster & Banner Editing</h3>
-                    <p>Striking visual layouts for events, social media covers, and big announcements.</p>
+                    <p>Striking visual layouts for events, social media covers, and big announcements. Scaled and organized perfectly for Twitter, YouTube, Twitch, or physical print.</p>
+                </div>
+            </div>
+
+            <div class="process-section" style="margin-top: 4rem;">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <h2>Our Process & Upgrades</h2>
+                    <p>We believe in collaboration and flexibility.</p>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h4>Do you offer revisions?</h4>
+                        <p>Yes, absolutely! We want you to be 100% satisfied. We offer revisions to ensure the final product perfectly aligns with your vision.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Need something extra?</h4>
+                        <p>We offer all sorts of custom services beyond the standard packages. Need source files, rapid 24-hour turnaround, or specialized 3D assets? These are available for an extra price. Contact us for a custom quote!</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -52,7 +74,7 @@
         <section id="portfolio" class="tab-content">
             <div class="section-header">
                 <h1>Our Work</h1>
-                <p>A closer look at our creativity.</p>
+                <p>A closer look at our creativity. We let our results speak for themselves.</p>
             </div>
             <div class="portfolio-grid">
                 <!-- Tiles -->
@@ -91,17 +113,39 @@
 
         <!-- Contact Section -->
         <section id="contact" class="tab-content">
-            <div class="section-header">
+             <div class="section-header">
                 <h1>Contact Us</h1>
-                <p>Let's create something amazing together.</p>
+                <p>Ready to start a project or need a custom quote? Reach out below.</p>
             </div>
-            <div class="contact-form-container">
-               <p style="color: var(--text-secondary); margin-bottom: 2rem;">[Customizable Contact Section - Add your details here]</p>
-               <div class="contact-info">
-                   <p>Email: example@graphicsxbros.com</p>
-                   <p>Discord: GraphicsXBros#1234</p>
-                   <p>Twitter: @GraphicsXBros</p>
-               </div>
+            
+            <div class="contact-grid">
+                <div class="contact-form-container">
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                        <div class="input-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" id="name" placeholder="John Doe" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="message">Project Details</label>
+                            <textarea id="message" rows="5" placeholder="Tell us about your project, timelines, and any extra services you might need..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="contact-info-container">
+                    <h3>Direct Contact</h3>
+                    <p>Prefer to reach out directly? Find us on the platforms below.</p>
+                    <div class="contact-info">
+                        <p><strong>Email:</strong> hello@graphicsxbros.com</p>
+                        <p><strong>Discord:</strong> GraphicsXBros#1234</p>
+                        <p><strong>Twitter:</strong> @GraphicsXBros</p>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

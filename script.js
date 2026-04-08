@@ -44,12 +44,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Alert for click on portfolio item
+    // Modal Logic for Portfolio Items
     const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const modal = document.getElementById('project-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const modalTitle = document.getElementById('modal-title');
+
     portfolioItems.forEach(item => {
         item.addEventListener('click', () => {
              const title = item.querySelector('.overlay h3').innerText;
-             alert(`You clicked to see more about: ${title}\n(Here you can replace this alert with a modal popup, a new page link, or extra details!)`);
+             modalTitle.innerText = title;
+             
+             // Show modal
+             modal.style.display = 'flex';
+             // Small delay to allow display to apply before fading in
+             setTimeout(() => {
+                 modal.classList.add('show');
+             }, 10);
         });
+    });
+
+    const closeModal = () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300); // Wait for transition
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Close on background click
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
 });
