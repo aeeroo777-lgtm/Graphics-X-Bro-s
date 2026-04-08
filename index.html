@@ -3,78 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphics X Bros Portfolio</title>
+    <title>Graphics X Bros | Creative Agency</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="hero">
-        <h1 class="logo-large">Graphics X Bros</h1>
-        <p class="hero-subtitle">Elevating Your Visual Identity</p>
-    </header>
-
     <div class="navbar-wrapper">
         <nav class="navbar">
-            <button class="nav-btn active" data-target="services">Services</button>
-            <button class="nav-btn" data-target="portfolio">Portfolio</button>
-            <button class="nav-btn" data-target="contact">Contact Us</button>
+            <a href="#hero" class="nav-btn active">Home</a>
+            <a href="#services" class="nav-btn">Services</a>
+            <a href="#portfolio" class="nav-btn">Work</a>
+            <a href="#process" class="nav-btn">Process</a>
+            <a href="#contact" class="nav-btn">Contact</a>
         </nav>
     </div>
 
     <main class="content-container">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section-scroll reveal-section">
+            <div class="hero-content">
+                <p class="eyebrow">Creative Mind. Real Impact.</p>
+                <h1 class="logo-large">Graphics X Bros</h1>
+                <p class="hero-subtitle">We design scroll-stopping thumbnails, high-impact creatives, and engaging visual identities that help creators and brands stand out.</p>
+                <div class="hero-cta">
+                    <a href="#portfolio" class="btn-primary">View Our Work</a>
+                    <a href="#contact" class="btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <h2>150+</h2>
+                    <p>Completed Projects</p>
+                </div>
+                <div class="stat-item">
+                    <h2>5+</h2>
+                    <p>Years of Experience</p>
+                </div>
+                <div class="stat-item">
+                    <h2>99%</h2>
+                    <p>Happy Clients</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Services Section -->
-        <section id="services" class="tab-content active">
+        <section id="services" class="section-scroll reveal-section">
             <div class="section-header">
-                <h1>What We Provide</h1>
-                <p>Professional editing and design services with meticulous attention to detail. We offer all sorts of services to cater to your specific needs.</p>
+                <p class="section-eyebrow">[01 Services]</p>
+                <h1>Not just services - we deliver growth, clarity, and real impact.</h1>
             </div>
             
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Video Editing</h3>
-                    <p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing, add dynamic transitions, and perform professional sound mixing to keep your audience hooked.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Graphic Designing</h3>
-                    <p>Modern logos, branding identities, and completely bespoke graphic assets. We help translate your vision into a striking, consistent visual language across all platforms.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Photo Editing</h3>
-                    <p>Color grading, retouching, and composition to bring out the very best in your shots. From subtle enhancements to complete manipulation, we make every pixel count.</p>
-                </div>
-                <div class="service-card">
+            <div class="bento-grid">
+                <div class="bento-item large-card">
                     <h3>Thumbnail Making</h3>
-                    <p>Ultra-clickable and expressive thumbnails tailored for YouTube success. We understand the algorithm and use high-contrast visuals to drastically bump up your Click-Through Rate.</p>
+                    <p>Strategic thumbnail designs crafted to stop the scroll, increase clicks, and make your content stand out in crowded feeds.</p>
                 </div>
-                <div class="service-card">
+                <div class="bento-item">
+                    <h3>Video Editing</h3>
+                    <p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing and add dynamic transitions.</p>
+                </div>
+                <div class="bento-item">
+                    <h3>Graphic Designing</h3>
+                    <p>Modern logos, branding identities, and bespoke graphic assets. Translate your vision into a striking visual language.</p>
+                </div>
+                <div class="bento-item">
+                    <h3>Photo Editing</h3>
+                    <p>Color grading, retouching, and composition to bring out the very best in your shots. We make every pixel count.</p>
+                </div>
+                <div class="bento-item wide-card">
                     <h3>Poster & Banner Editing</h3>
-                    <p>Striking visual layouts for events, social media covers, and big announcements. Scaled and organized perfectly for Twitter, YouTube, Twitch, or physical print.</p>
-                </div>
-            </div>
-
-            <div class="process-section" style="margin-top: 4rem;">
-                <div class="section-header" style="margin-bottom: 2rem;">
-                    <h2>Our Process & Upgrades</h2>
-                    <p>We believe in collaboration and flexibility.</p>
-                </div>
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <h4>Do you offer revisions?</h4>
-                        <p>Yes, absolutely! We want you to be 100% satisfied. We offer revisions to ensure the final product perfectly aligns with your vision.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>Need something extra?</h4>
-                        <p>We offer all sorts of custom services beyond the standard packages. Need source files, rapid 24-hour turnaround, or specialized 3D assets? These are available for an extra price. Contact us for a custom quote!</p>
-                    </div>
+                    <p>Striking visual layouts perfectly scaled for YouTube, Twitter, Twitch, or physical print. Build your brand presence.</p>
                 </div>
             </div>
         </section>
 
         <!-- Portfolio Section -->
-        <section id="portfolio" class="tab-content">
+        <section id="portfolio" class="section-scroll reveal-section">
             <div class="section-header">
-                <h1>Our Work</h1>
-                <p>A closer look at our creativity. We let our results speak for themselves.</p>
+                <p class="section-eyebrow">[02 Our Work]</p>
+                <h1>A closer look at our creativity. We let our results speak for themselves.</h1>
             </div>
             <div class="portfolio-grid">
                 <!-- Tiles -->
@@ -111,11 +118,49 @@
             </div>
         </section>
 
+        <!-- Process Section -->
+        <section id="process" class="section-scroll reveal-section">
+            <div class="section-header">
+                <p class="section-eyebrow">[03 Workflow]</p>
+                <h1>You'll get more than just great design - you'll get results.</h1>
+            </div>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-num">01</div>
+                    <div class="step-info">
+                        <h4>Understand</h4>
+                        <p>Deep understanding of your business, forming the foundation for an impactful strategy.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">02</div>
+                    <div class="step-info">
+                        <h4>Ideate</h4>
+                        <p>We brainstorm click-worthy ideas using your niche, topic, and audience psychology.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">03</div>
+                    <div class="step-info">
+                        <h4>Create</h4>
+                        <p>We craft high-quality, scroll-stopping visuals, sharing updates so you're never left guessing.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-num">04</div>
+                    <div class="step-info">
+                        <h4>Polish</h4>
+                        <p>We revise fast using your feedback aiming for designs you'd double-click yourself. Final files shared.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
-        <section id="contact" class="tab-content">
+        <section id="contact" class="section-scroll reveal-section">
              <div class="section-header">
-                <h1>Contact Us</h1>
-                <p>Ready to start a project or need a custom quote? Reach out below.</p>
+                <p class="section-eyebrow">[04 Get In Touch]</p>
+                <h1>Have a vision? Let’s make a plan. Reach out and take the first step toward something great.</h1>
             </div>
             
             <div class="contact-grid">
@@ -141,9 +186,12 @@
                     <h3>Direct Contact</h3>
                     <p>Prefer to reach out directly? Find us on the platforms below.</p>
                     <div class="contact-info">
-                        <p><strong>Email:</strong> hello@graphicsxbros.com</p>
-                        <p><strong>Discord:</strong> GraphicsXBros#1234</p>
-                        <p><strong>Twitter:</strong> @GraphicsXBros</p>
+                        <p class="contact-detail"><strong>Email:</strong> hello@graphicsxbros.com</p>
+                        <p class="contact-detail"><strong>Discord:</strong> GraphicsXBros#1234</p>
+                        <p class="contact-detail"><strong>Twitter:</strong> @GraphicsXBros</p>
+                    </div>
+                    <div class="footer-copy">
+                        <p>&copy; 2026 Graphics X Bros. All rights reserved.</p>
                     </div>
                 </div>
             </div>

@@ -1,50 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navBtns = document.querySelectorAll('.nav-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
+    // 1. Intersection Observer for Scroll Animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Trigger when 15% of the element is visible
+    };
 
-    // Initialize the first tab to be visible
-    const initialActive = document.querySelector('.tab-content.active');
-    if (initialActive) {
-        setTimeout(() => {
-            initialActive.classList.add('show');
-        }, 50);
-    }
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Optional: stop observing once revealed
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
 
-    navBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active from all buttons
-            navBtns.forEach(b => b.classList.remove('active'));
-            // Add active to clicked button
-            btn.classList.add('active');
+    const revealSections = document.querySelectorAll('.reveal-section');
+    revealSections.forEach(section => {
+        revealObserver.observe(section);
+    });
 
-            const targetId = btn.getAttribute('data-target');
+    // Initial check for hero section
+    setTimeout(() => {
+        const hero = document.getElementById('hero');
+        if (hero) hero.classList.add('visible');
+    }, 100);
 
-            tabContents.forEach(content => {
-                if (content.id === targetId) {
-                    // Show target
-                    content.classList.add('active');
-                    // Small delay to trigger CSS transition
-                    setTimeout(() => {
-                        content.classList.add('show');
-                    }, 50);
-                } else if (content.classList.contains('active')) {
-                    // Hide currently active
-                    content.classList.remove('show');
-                    // Wait for fade out animation before setting display:none
-                    setTimeout(() => {
-                        if (!content.classList.contains('show')) {
-                            content.classList.remove('active');
-                        }
-                    }, 400); // Wait for transition
-                }
-            });
-            
-            // Scroll back to top of container smoothly if needed
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 2. Scroll-Spy for Navbar highlighting
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-btn');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
         });
     });
 
-    // Modal Logic for Portfolio Items
+    // 3. Smooth Scrolling for Navbar Links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                window.scrollTo({
+                    top: targetSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // 4. Modal Logic for Portfolio Items
     const portfolioItems = document.querySelectorAll('.portfolio-item');
     const modal = document.getElementById('project-modal');
     const closeBtn = document.querySelector('.close-btn');
@@ -68,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('show');
         setTimeout(() => {
             modal.style.display = 'none';
-        }, 300); // Wait for transition
+        }, 400); // Wait for transition
     };
 
     closeBtn.addEventListener('click', closeModal);
