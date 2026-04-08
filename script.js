@@ -114,6 +114,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 2.5 3D Tilt Effect on Cards
+    const tiltElements = document.querySelectorAll('.bento-item, .portfolio-item');
+    
+    tiltElements.forEach(el => {
+        el.addEventListener('mousemove', e => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left; 
+            const y = e.clientY - rect.top;  
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Adjust the denominator for stronger/weaker tilt
+            const rotateX = ((y - centerY) / centerY) * -8; 
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            el.style.transition = 'transform 0.1s ease'; // Fast transition to follow mouse
+            el.style.zIndex = '10'; // Bring forward
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            el.style.transition = 'transform var(--transition-speed) var(--transition-ease), box-shadow 0.3s ease';
+            setTimeout(() => {
+                el.style.zIndex = '1';
+            }, 300);
+        });
+    });
+
     // 3. Smooth Scrolling for Navbar Links
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
