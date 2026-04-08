@@ -1,963 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Graphics X Bro's — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --accent1: #ff6b35;
-    --accent2: #c850c0;
-    --accent3: #4158d0;
-    --accent4: #00f5a0;
-    --glass-bg: rgba(255,255,255,0.06);
-    --glass-border: rgba(255,255,255,0.12);
-    --glass-shadow: rgba(0,0,0,0.4);
-    --text: #f0f0f0;
-    --muted: rgba(240,240,240,0.5);
-  }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: #060612;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* CUSTOM CURSOR */
-  .cursor {
-    position: fixed;
-    width: 12px; height: 12px;
-    background: var(--accent1);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 40px; height: 40px;
-    border: 1.5px solid rgba(255,107,53,0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.18s ease, width 0.3s, height 0.3s, opacity 0.3s;
-  }
-  body:hover .cursor-ring { opacity: 1; }
-
-  /* ANIMATED BG MESH */
-  .bg-mesh {
-    position: fixed; inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.35;
-    animation: floatOrb 12s ease-in-out infinite;
-  }
-  .orb1 { width: 600px; height: 600px; background: radial-gradient(circle, #4158d0, transparent); top: -100px; left: -100px; animation-delay: 0s; }
-  .orb2 { width: 500px; height: 500px; background: radial-gradient(circle, #c850c0, transparent); top: 30%; right: -100px; animation-delay: -4s; }
-  .orb3 { width: 400px; height: 400px; background: radial-gradient(circle, #ff6b35, transparent); bottom: 10%; left: 20%; animation-delay: -8s; }
-  .orb4 { width: 300px; height: 300px; background: radial-gradient(circle, #00f5a0, transparent); top: 60%; left: 60%; animation-delay: -2s; }
-
-  @keyframes floatOrb {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -60px) scale(1.1); }
-    66% { transform: translate(-30px, 40px) scale(0.95); }
-  }
-
-  /* NOISE GRAIN OVERLAY */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.5;
-  }
-
-  /* GLASS MIXIN */
-  .glass {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 8px 32px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.1);
-  }
-
-  /* ===== NAV ===== */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(6,6,18,0.6);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    animation: slideDown 0.8s ease forwards;
-  }
-  @keyframes slideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    letter-spacing: -0.02em;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.3s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 1px;
-    background: var(--accent1);
-    transition: width 0.3s;
-  }
-  .nav-links a:hover { color: var(--text); }
-  .nav-links a:hover::after { width: 100%; }
-
-  /* ===== HERO ===== */
-  #hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center;
-    padding: 100px 40px 60px;
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--accent4);
-    padding: 6px 16px;
-    border: 1px solid rgba(0,245,160,0.2);
-    border-radius: 100px;
-    margin-bottom: 32px;
-    animation: fadeUp 0.8s 0.4s ease both;
-  }
-  .hero-eyebrow span { width: 6px; height: 6px; background: var(--accent4); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
-
-  .hero-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(3rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 28px;
-    animation: fadeUp 0.8s 0.6s ease both;
-  }
-  .hero-title .line1 { display: block; color: var(--text); }
-  .hero-title .line2 {
-    display: block;
-    background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% auto;
-    animation: gradientShift 4s ease infinite, fadeUp 0.8s 0.6s ease both;
-  }
-  @keyframes gradientShift { 0%,100%{background-position:0%} 50%{background-position:100%} }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 480px;
-    line-height: 1.7;
-    margin-bottom: 48px;
-    font-weight: 300;
-    animation: fadeUp 0.8s 0.8s ease both;
-  }
-
-  .hero-cta {
-    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
-    animation: fadeUp 0.8s 1s ease both;
-  }
-  .btn-primary {
-    padding: 14px 36px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    color: #fff;
-    border: none; border-radius: 100px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; font-weight: 500;
-    cursor: pointer; text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 30px rgba(255,107,53,0.3);
-  }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(255,107,53,0.5); }
-  .btn-outline {
-    padding: 14px 36px;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--glass-border);
-    border-radius: 100px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; font-weight: 500;
-    cursor: pointer; text-decoration: none;
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s, border-color 0.3s, background 0.3s;
-  }
-  .btn-outline:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
-
-  .scroll-hint {
-    position: absolute; bottom: 40px;
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--muted);
-    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
-    animation: fadeUp 0.8s 1.4s ease both;
-  }
-  .scroll-line {
-    width: 1px; height: 50px;
-    background: linear-gradient(to bottom, transparent, var(--accent1));
-    animation: scrollLine 2s ease-in-out infinite;
-  }
-  @keyframes scrollLine {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform: scaleY(1); transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* FLOATING STATS */
-  .hero-stats {
-    position: absolute;
-    bottom: 120px; left: 60px;
-    display: flex; flex-direction: column; gap: 12px;
-    animation: fadeUp 0.8s 1.2s ease both;
-  }
-  .stat-pill {
-    padding: 10px 18px;
-    border-radius: 100px;
-    display: flex; align-items: center; gap: 10px;
-    font-size: 0.8rem;
-  }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    color: var(--accent1);
-  }
-
-  /* ===== SERVICES ===== */
-  #services {
-    position: relative; z-index: 2;
-    padding: 120px 60px;
-  }
-  .section-label {
-    font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--accent2);
-    margin-bottom: 16px;
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s, transform 0.6s;
-  }
-  .section-label.visible { opacity: 1; transform: none; }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: clamp(2rem, 4vw, 3.5rem);
-    letter-spacing: -0.03em; line-height: 1.1;
-    margin-bottom: 64px;
-    max-width: 600px;
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s 0.15s, transform 0.6s 0.15s;
-  }
-  .section-title.visible { opacity: 1; transform: none; }
-  .section-title em { font-style: normal; color: var(--accent1); }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .service-card {
-    padding: 36px 32px;
-    border-radius: 24px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s;
-    cursor: pointer;
-    opacity: 0; transform: translateY(40px);
-    transition: opacity 0.6s, transform 0.6s, box-shadow 0.4s;
-  }
-  .service-card.visible { opacity: 1; transform: translateY(0); }
-  .service-card:hover {
-    transform: translateY(-8px) scale(1.02) !important;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15) !important;
-  }
-
-  .service-card::before {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: 24px;
-    background: var(--card-glow);
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-  .service-card:hover::before { opacity: 1; }
-
-  .service-card:nth-child(1) { --card-glow: linear-gradient(135deg, rgba(255,107,53,0.08), transparent); transition-delay: 0.1s; }
-  .service-card:nth-child(2) { --card-glow: linear-gradient(135deg, rgba(200,80,192,0.08), transparent); transition-delay: 0.2s; }
-  .service-card:nth-child(3) { --card-glow: linear-gradient(135deg, rgba(65,88,208,0.08), transparent); transition-delay: 0.3s; }
-  .service-card:nth-child(4) { --card-glow: linear-gradient(135deg, rgba(0,245,160,0.08), transparent); transition-delay: 0.4s; }
-  .service-card:nth-child(5) { --card-glow: linear-gradient(135deg, rgba(255,107,53,0.08), transparent); transition-delay: 0.5s; }
-  .service-card:nth-child(6) { --card-glow: linear-gradient(135deg, rgba(200,80,192,0.08), transparent); transition-delay: 0.6s; }
-
-  .service-icon {
-    width: 56px; height: 56px;
-    border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem;
-    margin-bottom: 24px;
-    position: relative;
-  }
-  .service-card:nth-child(1) .service-icon { background: rgba(255,107,53,0.15); box-shadow: 0 0 20px rgba(255,107,53,0.2); }
-  .service-card:nth-child(2) .service-icon { background: rgba(200,80,192,0.15); box-shadow: 0 0 20px rgba(200,80,192,0.2); }
-  .service-card:nth-child(3) .service-icon { background: rgba(65,88,208,0.15); box-shadow: 0 0 20px rgba(65,88,208,0.2); }
-  .service-card:nth-child(4) .service-icon { background: rgba(0,245,160,0.15); box-shadow: 0 0 20px rgba(0,245,160,0.2); }
-  .service-card:nth-child(5) .service-icon { background: rgba(255,107,53,0.15); box-shadow: 0 0 20px rgba(255,107,53,0.2); }
-  .service-card:nth-child(6) .service-icon { background: rgba(200,80,192,0.15); box-shadow: 0 0 20px rgba(200,80,192,0.2); }
-
-  .service-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 1.15rem;
-    margin-bottom: 12px; letter-spacing: -0.01em;
-  }
-  .service-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.65; font-weight: 300; }
-
-  .service-tag {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--muted);
-    transition: border-color 0.3s, color 0.3s;
-  }
-  .service-card:hover .service-tag { border-color: var(--accent1); color: var(--accent1); }
-
-  /* FEATURED / LARGE CARD */
-  .service-card.large { grid-column: span 2; display: flex; gap: 32px; align-items: center; }
-  .service-card.large .service-content { flex: 1; }
-  .service-card.large .service-visual {
-    flex: 1;
-    height: 160px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(65,88,208,0.2), rgba(200,80,192,0.2));
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3rem;
-    position: relative; overflow: hidden;
-  }
-  .service-card.large .service-visual::after {
-    content: '';
-    position: absolute;
-    width: 120px; height: 120px;
-    background: radial-gradient(circle, rgba(200,80,192,0.4), transparent);
-    animation: pulseGlow 3s ease-in-out infinite;
-  }
-  @keyframes pulseGlow { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.3);opacity:1} }
-
-  /* ===== PROCESS ===== */
-  #process {
-    position: relative; z-index: 2;
-    padding: 100px 60px;
-  }
-  .process-flow {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    margin-top: 60px;
-    position: relative;
-  }
-  .process-flow::before {
-    content: '';
-    position: absolute;
-    top: 36px; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent1), var(--accent2), var(--accent3), transparent);
-  }
-  .process-step {
-    padding: 40px 28px;
-    border-radius: 20px;
-    text-align: center;
-    position: relative;
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.5s, transform 0.5s;
-  }
-  .process-step.visible { opacity: 1; transform: none; }
-  .process-step:nth-child(2) { transition-delay: 0.15s; }
-  .process-step:nth-child(3) { transition-delay: 0.3s; }
-  .process-step:nth-child(4) { transition-delay: 0.45s; }
-
-  .step-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem; font-weight: 800;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.1);
-    margin-bottom: 16px;
-    display: block;
-    line-height: 1;
-  }
-  .step-icon {
-    font-size: 1.8rem;
-    margin-bottom: 16px;
-    display: block;
-  }
-  .step-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    margin-bottom: 8px;
-  }
-  .step-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.6; }
-
-  /* ===== PORTFOLIO ===== */
-  #portfolio {
-    position: relative; z-index: 2;
-    padding: 100px 60px;
-  }
-  .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 240px;
-    gap: 16px;
-    margin-top: 60px;
-  }
-  .portfolio-item {
-    border-radius: 20px;
-    position: relative; overflow: hidden;
-    cursor: pointer;
-    opacity: 0; transform: scale(0.95);
-    transition: opacity 0.6s, transform 0.6s;
-  }
-  .portfolio-item.visible { opacity: 1; transform: scale(1); }
-  .portfolio-item:nth-child(1) { grid-column: span 2; }
-  .portfolio-item:nth-child(4) { grid-column: span 2; }
-
-  .portfolio-bg {
-    position: absolute; inset: 0;
-    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
-  }
-  .portfolio-item:hover .portfolio-bg { transform: scale(1.08); }
-
-  .p1 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
-  .p2 { background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); }
-  .p3 { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
-  .p4 { background: linear-gradient(135deg, #141e30, #243b55); }
-  .p5 { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
-  .p6 { background: linear-gradient(135deg, #ee0979, #ff6a00); }
-
-  .portfolio-decor {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 5rem;
-    opacity: 0.15;
-    transition: opacity 0.3s;
-  }
-  .portfolio-item:hover .portfolio-decor { opacity: 0.25; }
-
-  .portfolio-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 24px;
-    transform: translateY(8px);
-    opacity: 0;
-    transition: opacity 0.4s, transform 0.4s;
-  }
-  .portfolio-item:hover .portfolio-overlay { opacity: 1; transform: none; }
-
-  .portfolio-category {
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--accent4); margin-bottom: 6px;
-  }
-  .portfolio-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700; font-size: 1rem;
-  }
-
-  /* geometric decorations on cards */
-  .p-geo {
-    position: absolute;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 50%;
-    animation: rotateSlow 20s linear infinite;
-  }
-  @keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-
-  /* ===== CONTACT ===== */
-  #contact {
-    position: relative; z-index: 2;
-    padding: 100px 60px 160px;
-  }
-  .contact-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .contact-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800; letter-spacing: -0.04em;
-    line-height: 1.05;
-    margin-bottom: 24px;
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s, transform 0.6s;
-  }
-  .contact-title.visible { opacity: 1; transform: none; }
-  .contact-subtitle {
-    color: var(--muted); font-size: 1rem; line-height: 1.7;
-    margin-bottom: 48px;
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s 0.15s, transform 0.6s 0.15s;
-  }
-  .contact-subtitle.visible { opacity: 1; transform: none; }
-
-  .contact-cards {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 16px; margin-bottom: 40px;
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.6s 0.3s, transform 0.6s 0.3s;
-  }
-  .contact-cards.visible { opacity: 1; transform: none; }
-  .contact-card {
-    padding: 28px 20px;
-    border-radius: 20px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-  }
-  .contact-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-  .contact-card-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
-  .contact-card-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .contact-card-value { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; }
-
-  /* ===== FOOTER ===== */
-  footer {
-    position: relative; z-index: 2;
-    padding: 32px 60px;
-    border-top: 1px solid var(--glass-border);
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(6,6,18,0.6);
-    backdrop-filter: blur(20px);
-  }
-  .footer-brand {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .footer-copy { color: var(--muted); font-size: 0.8rem; }
-
-  /* ===== FLOATING TICKER ===== */
-  .ticker-wrap {
-    position: relative; z-index: 2;
-    padding: 20px 0;
-    overflow: hidden;
-    border-top: 1px solid var(--glass-border);
-    border-bottom: 1px solid var(--glass-border);
-    background: rgba(255,255,255,0.02);
-  }
-  .ticker {
-    display: flex; gap: 60px;
-    animation: ticker 20s linear infinite;
-    white-space: nowrap;
-  }
-  .ticker-item {
-    display: flex; align-items: center; gap: 12px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.85rem; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
-  .ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent1); }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    #services, #process, #portfolio, #contact { padding: 80px 24px; }
-    .services-grid { grid-template-columns: 1fr; }
-    .service-card.large { grid-column: span 1; flex-direction: column; }
-    .process-flow { grid-template-columns: repeat(2, 1fr); }
-    .portfolio-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
-    .portfolio-item:nth-child(1), .portfolio-item:nth-child(4) { grid-column: span 1; }
-    .contact-cards { grid-template-columns: 1fr; }
-    .hero-stats { display: none; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphics X Bros Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="navbar">
+        <div class="logo">Graphics X Bros</div>
+        <nav>
+            <button class="nav-btn active" data-target="services">Services</button>
+            <button class="nav-btn" data-target="portfolio">Portfolio</button>
+            <button class="nav-btn" data-target="contact">Contact Us</button>
+        </nav>
+    </header>
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+    <main class="content-container">
+        <!-- Services Section -->
+        <section id="services" class="tab-content active">
+            <div class="section-header">
+                <h1>What We Provide</h1>
+                <p>Professional editing and design services to elevate your brand.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Video Editing</h3>
+                    <p>High-quality edits to make your footage cinematic, engaging, and professional.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Graphic Designing</h3>
+                    <p>Modern logos, branding identities, and completely bespoke graphic assets.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Photo Editing</h3>
+                    <p>Color grading, retouching, and composition to bring out the very best in your shots.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Thumbnail Making</h3>
+                    <p>Ultra-clickable and expressive thumbnails tailored for YouTube success.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Poster & Banner Editing</h3>
+                    <p>Striking visual layouts for events, social media covers, and big announcements.</p>
+                </div>
+            </div>
+        </section>
 
-<!-- Animated background -->
-<div class="bg-mesh">
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
-  <div class="orb orb4"></div>
-</div>
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="tab-content">
+            <div class="section-header">
+                <h1>Our Work</h1>
+                <p>A closer look at our creativity.</p>
+            </div>
+            <div class="portfolio-grid">
+                <!-- Tiles -->
+                <div class="portfolio-item">
+                    <img src="assets/video_editing.png" alt="Video Editing">
+                    <div class="overlay">
+                        <h3>Video Editing</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="assets/graphic_design.png" alt="Graphic Design">
+                    <div class="overlay">
+                        <h3>Graphic Designing</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="assets/photo_editing.png" alt="Photo Editing">
+                    <div class="overlay">
+                        <h3>Photo Editing</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="assets/thumbnail_making.png" alt="Thumbnail Making">
+                    <div class="overlay">
+                        <h3>Thumbnail Making</h3>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="assets/poster_banner.png" alt="Poster & Banner Editing">
+                    <div class="overlay">
+                        <h3>Poster & Banner Editing</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Nav -->
-<nav>
-  <div class="nav-logo">Graphics X Bro's</div>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#process">Process</a></li>
-    <li><a href="#portfolio">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="#contact" class="btn-primary" style="padding:10px 24px;font-size:0.8rem;">Let's Talk</a>
-</nav>
+        <!-- Contact Section -->
+        <section id="contact" class="tab-content">
+            <div class="section-header">
+                <h1>Contact Us</h1>
+                <p>Let's create something amazing together.</p>
+            </div>
+            <div class="contact-form-container">
+               <p style="color: var(--text-secondary); margin-bottom: 2rem;">[Customizable Contact Section - Add your details here]</p>
+               <div class="contact-info">
+                   <p>Email: example@graphicsxbros.com</p>
+                   <p>Discord: GraphicsXBros#1234</p>
+                   <p>Twitter: @GraphicsXBros</p>
+               </div>
+            </div>
+        </section>
+    </main>
 
-<!-- Hero -->
-<section id="hero">
-  <div class="hero-eyebrow"><span></span> Available for Projects</div>
-  <h1 class="hero-title">
-    <span class="line1">We Make</span>
-    <span class="line2">Visuals That Hit</span>
-  </h1>
-  <p class="hero-sub">Video editing, graphic design, thumbnails, banners — we craft content that stops the scroll and builds brands that people remember.</p>
-  <div class="hero-cta">
-    <a href="#portfolio" class="btn-primary">View Our Work</a>
-    <a href="#contact" class="btn-outline">Get a Quote</a>
-  </div>
-
-  <div class="hero-stats">
-    <div class="stat-pill glass" style="border-radius:16px">
-      <span class="stat-num">6+</span>
-      <span style="color:var(--muted);font-size:0.8rem;">Services Offered</span>
-    </div>
-    <div class="stat-pill glass" style="border-radius:16px">
-      <span class="stat-num">Fast</span>
-      <span style="color:var(--muted);font-size:0.8rem;">Turnaround</span>
-    </div>
-  </div>
-
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
-
-<!-- Ticker -->
-<div class="ticker-wrap">
-  <div class="ticker">
-    <span class="ticker-item"><span class="ticker-dot"></span>Video Editing</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Photo Editing</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Poster Making</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Banner Design</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Graphic Design</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Thumbnail Making</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Video Editing</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Photo Editing</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Poster Making</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Banner Design</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Graphic Design</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Thumbnail Making</span>
-  </div>
-</div>
-
-<!-- Services -->
-<section id="services">
-  <div class="section-label reveal">What We Do</div>
-  <h2 class="section-title reveal">Creative services <em>built</em><br>to grow your brand</h2>
-
-  <div class="services-grid">
-    <div class="service-card glass reveal-card">
-      <div class="service-icon">🎬</div>
-      <div class="service-name">Video Editing</div>
-      <p class="service-desc">Cinematic cuts, smooth transitions, color grading, and motion graphics. We turn raw footage into polished, engaging videos that keep viewers hooked.</p>
-      <span class="service-tag">Reels · YouTube · Shorts</span>
-    </div>
-
-    <div class="service-card glass reveal-card">
-      <div class="service-icon">🖼️</div>
-      <div class="service-name">Photo Editing</div>
-      <p class="service-desc">Professional retouching, color correction, background removal, and compositing. Every pixel perfected to make your visuals pop.</p>
-      <span class="service-tag">Retouch · Composite · Grade</span>
-    </div>
-
-    <div class="service-card glass reveal-card">
-      <div class="service-icon">🎨</div>
-      <div class="service-name">Graphic Designing</div>
-      <p class="service-desc">From brand identity to social media assets — clean, bold, and purposeful designs that communicate your message at a glance.</p>
-      <span class="service-tag">Brand · Social · Print</span>
-    </div>
-
-    <div class="service-card glass reveal-card large">
-      <div class="service-content">
-        <div class="service-icon">📌</div>
-        <div class="service-name">Poster & Banner Making</div>
-        <p class="service-desc">Eye-catching promotional materials designed to demand attention — whether digital or print, we design posters and banners that deliver your message with impact.</p>
-        <span class="service-tag">Event · Promo · Digital</span>
-      </div>
-      <div class="service-visual">🗂️</div>
-    </div>
-
-    <div class="service-card glass reveal-card">
-      <div class="service-icon">⚡</div>
-      <div class="service-name">Thumbnail Making</div>
-      <p class="service-desc">High-CTR thumbnails engineered to get clicks. Bold typography, striking visuals, and psychological design principles that make your content irresistible.</p>
-      <span class="service-tag">YouTube · Shorts · Reels</span>
-    </div>
-  </div>
-</section>
-
-<!-- Process -->
-<section id="process">
-  <div class="section-label reveal">How It Works</div>
-  <h2 class="section-title reveal">Simple process,<br><em>exceptional</em> results</h2>
-
-  <div class="process-flow">
-    <div class="process-step glass reveal">
-      <span class="step-num">01</span>
-      <span class="step-icon">💬</span>
-      <div class="step-title">Brief Us</div>
-      <p class="step-desc">Tell us your vision, goals, and references. The clearer the brief, the better the output.</p>
-    </div>
-    <div class="process-step glass reveal">
-      <span class="step-num">02</span>
-      <span class="step-icon">✏️</span>
-      <div class="step-title">We Design</div>
-      <p class="step-desc">Our team gets to work crafting concepts tailored to your brand and audience.</p>
-    </div>
-    <div class="process-step glass reveal">
-      <span class="step-num">03</span>
-      <span class="step-icon">🔁</span>
-      <div class="step-title">Review</div>
-      <p class="step-desc">Share feedback, request revisions — we iterate until it's exactly what you envisioned.</p>
-    </div>
-    <div class="process-step glass reveal">
-      <span class="step-num">04</span>
-      <span class="step-icon">🚀</span>
-      <div class="step-title">Deliver</div>
-      <p class="step-desc">Final files delivered in your preferred format, ready to publish and perform.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Portfolio -->
-<section id="portfolio">
-  <div class="section-label reveal">Our Work</div>
-  <h2 class="section-title reveal">A glimpse of<br>what we've <em>crafted</em></h2>
-
-  <div class="portfolio-grid">
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p1">
-        <div class="p-geo" style="width:200px;height:200px;top:-50px;right:-50px;"></div>
-        <div class="p-geo" style="width:100px;height:100px;bottom:20px;left:20px;animation-direction:reverse;"></div>
-      </div>
-      <div class="portfolio-decor">🎬</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Video Editing</span>
-        <span class="portfolio-title">Brand Commercial Reel</span>
-      </div>
-    </div>
-
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p2"></div>
-      <div class="portfolio-decor">🖼️</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Photo Editing</span>
-        <span class="portfolio-title">Product Photography</span>
-      </div>
-    </div>
-
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p3">
-        <div class="p-geo" style="width:150px;height:150px;top:20px;left:20px;"></div>
-      </div>
-      <div class="portfolio-decor">🎨</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Graphic Design</span>
-        <span class="portfolio-title">Music Artist Brand Identity</span>
-      </div>
-    </div>
-
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p4"></div>
-      <div class="portfolio-decor">📌</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Poster Design</span>
-        <span class="portfolio-title">Event Promotional Series</span>
-      </div>
-    </div>
-
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p5">
-        <div class="p-geo" style="width:180px;height:180px;bottom:-40px;right:-40px;"></div>
-      </div>
-      <div class="portfolio-decor">⚡</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Thumbnail Design</span>
-        <span class="portfolio-title">YouTube Channel Pack</span>
-      </div>
-    </div>
-
-    <div class="portfolio-item reveal-card">
-      <div class="portfolio-bg p6"></div>
-      <div class="portfolio-decor">🗂️</div>
-      <div class="portfolio-overlay">
-        <span class="portfolio-category">Banner Making</span>
-        <span class="portfolio-title">Social Media Ad Campaign</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<section id="contact">
-  <div class="contact-wrapper">
-    <h2 class="contact-title reveal">Ready to create<br><span style="background:linear-gradient(135deg,var(--accent1),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">something great?</span></h2>
-    <p class="contact-subtitle reveal">We're posting samples daily and growing fast. Whether you need a single edit or a full content strategy — let's connect and make it happen.</p>
-
-    <div class="contact-cards reveal">
-      <div class="contact-card glass">
-        <span class="contact-card-icon">💬</span>
-        <div class="contact-card-label">Instagram / DM</div>
-        <div class="contact-card-value">@creativestudio</div>
-      </div>
-      <div class="contact-card glass">
-        <span class="contact-card-icon">📧</span>
-        <div class="contact-card-label">Email</div>
-        <div class="contact-card-value">hello@studio.in</div>
-      </div>
-      <div class="contact-card glass">
-        <span class="contact-card-icon">⚡</span>
-        <div class="contact-card-label">Response Time</div>
-        <div class="contact-card-value">Within 24 hrs</div>
-      </div>
-    </div>
-
-    <a href="mailto:hello@studio.in" class="btn-primary" style="font-size:1rem;padding:16px 48px">Start a Project →</a>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-brand">Graphics X Bro's</div>
-  <div class="footer-copy">© 2025 Graphics X Bro's · All rights reserved</div>
-  <div style="color:var(--muted);font-size:0.8rem;">Built with ❤️</div>
-</footer>
-
-<script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button, .service-card, .portfolio-item, .contact-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '20px'; cursor.style.height = '20px';
-      ring.style.width = '60px'; ring.style.height = '60px';
-      ring.style.borderColor = 'rgba(255,107,53,0.8)';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '12px'; cursor.style.height = '12px';
-      ring.style.width = '40px'; ring.style.height = '40px';
-      ring.style.borderColor = 'rgba(255,107,53,0.5)';
-    });
-  });
-
-  // Intersection observer for scroll reveals
-  const revealEls = document.querySelectorAll('.reveal, .reveal-card, .section-label, .section-title, .contact-title, .contact-subtitle, .contact-cards');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => obs.observe(el));
-
-  // Stagger service cards
-  document.querySelectorAll('.service-card').forEach((card, i) => {
-    const cardObs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setTimeout(() => card.classList.add('visible'), i * 100);
-        cardObs.disconnect();
-      }
-    }, { threshold: 0.1 });
-    cardObs.observe(card);
-  });
-
-  // Portfolio items
-  document.querySelectorAll('.portfolio-item').forEach((item, i) => {
-    const iObs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setTimeout(() => item.classList.add('visible'), i * 80);
-        iObs.disconnect();
-      }
-    }, { threshold: 0.1 });
-    iObs.observe(item);
-  });
-
-  // Process steps
-  document.querySelectorAll('.process-step').forEach((step, i) => {
-    const sObs = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        setTimeout(() => step.classList.add('visible'), i * 150);
-        sObs.disconnect();
-      }
-    }, { threshold: 0.1 });
-    sObs.observe(step);
-  });
-
-  // Parallax orbs on mouse move
-  document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 30;
-    const y = (e.clientY / window.innerHeight - 0.5) * 30;
-    document.querySelectorAll('.orb').forEach((orb, i) => {
-      const factor = (i + 1) * 0.4;
-      orb.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
-    });
-  });
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
