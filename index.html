@@ -4,10 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="dark">
-    <meta name="darkreader-lock">
     <title>Graphics X Bros | Premium Creative Agency</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <style>
+:root{--bg-color:#050505;--surface-color:#0c0c0c;--surface-hover:#161616;--text-primary:#f0f0f0;--text-secondary:#777777;--border-color:rgba(255,255,255,0.07);--accent-color:#ffffff;--accent-text:#000000;--transition-speed:0.5s;--transition-ease:cubic-bezier(0.22,1,0.36,1);--scroll-progress:0}
+*{margin:0;padding:0;box-sizing:border-box}
+html{overflow-x:hidden;scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background-color:var(--bg-color);color:var(--text-primary);line-height:1.6}
+::selection{background:rgba(255,255,255,.15);color:#fff}
+.scroll-progress{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,rgba(120,100,255,.8),rgba(255,100,180,.8),rgba(120,100,255,.8));background-size:200% 100%;animation:progressShimmer 3s ease-in-out infinite;width:calc(var(--scroll-progress)*100%);transition:width .1s linear;box-shadow:0 0 12px rgba(120,100,255,.4)}
+@keyframes progressShimmer{0%{background-position:0% center}100%{background-position:200% center}}
+
+/* ─── ANIMATIONS ─── */
+.reveal-element{opacity:0;transform:translateY(60px) scale(0.95);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-element.visible{opacity:1;transform:translateY(0) scale(1)}
+.reveal-left{opacity:0;transform:translateX(-80px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(80px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.reveal-flip{opacity:0;transform:rotateX(-20deg) translateY(50px);transform-origin:bottom center;transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-flip.visible{opacity:1;transform:rotateX(0) translateY(0)}
+.reveal-zoom{opacity:0;transform:scale(0.7);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-zoom.visible{opacity:1;transform:scale(1)}
+.reveal-rotate{opacity:0;transform:rotate(-8deg) translateY(40px) scale(0.9);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+.reveal-rotate.visible{opacity:1;transform:rotate(0) translateY(0) scale(1)}
+.stagger-1{transition-delay:.05s!important}.stagger-2{transition-delay:.12s!important}.stagger-3{transition-delay:.20s!important}.stagger-4{transition-delay:.28s!important}.stagger-5{transition-delay:.36s!important}
+
+/* ─── CANVAS ─── */
+#bg-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
+
+/* ─── NAVBAR ─── */
+.navbar-wrapper{display:flex;justify-content:center;position:fixed;top:1.5rem;width:100%;z-index:100;pointer-events:none}
+.navbar{display:flex;gap:.2rem;padding:.35rem;background:rgba(8,8,8,.55);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.06);border-radius:50px;box-shadow:0 8px 32px rgba(0,0,0,.6);pointer-events:auto}
+.nav-btn{text-decoration:none;background:transparent;border:none;color:var(--text-secondary);font-size:.85rem;font-weight:500;cursor:pointer;padding:.6rem 1.3rem;border-radius:50px;transition:all .35s var(--transition-ease)}
+.nav-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.04)}
+.nav-btn.active{color:var(--accent-text);background:var(--accent-color);box-shadow:0 2px 12px rgba(255,255,255,.15)}
+
+/* ─── LAYOUT ─── */
+.content-container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.section-scroll{padding-top:8rem;padding-bottom:6rem;min-height:80vh;display:flex;flex-direction:column;justify-content:center;position:relative}
+.section-eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-secondary);margin-bottom:1.2rem;font-weight:600}
+.section-header{text-align:left;margin-bottom:4rem;max-width:800px}
+.section-header h1{font-size:3rem;font-weight:600;line-height:1.1;letter-spacing:-1.5px;color:var(--text-primary)}
+
+/* ─── HERO ─── */
+.hero{text-align:center;align-items:center;padding-top:12rem;min-height:100vh}
+.hero::before{content:'';position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(120,100,255,.06) 0%,rgba(255,80,180,.04) 40%,transparent 70%);border-radius:50%;filter:blur(80px);pointer-events:none;animation:heroGlow 10s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{opacity:.5;transform:translateX(-50%) scale(1)}100%{opacity:1;transform:translateX(-50%) scale(1.15)}}
+.hero-content{max-width:900px;margin:0 auto 5rem;position:relative;z-index:1}
+.hero .eyebrow{font-size:.9rem;color:var(--text-secondary);margin-bottom:1.2rem;text-transform:uppercase;letter-spacing:3px;font-weight:500}
+.logo-large{font-size:5.5rem;font-weight:800;letter-spacing:-3px;margin-bottom:1.5rem;line-height:1;background:linear-gradient(135deg,#fff 0%,#aaa 50%,#fff 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmerText 4s ease-in-out infinite}
+@keyframes shimmerText{0%{background-position:0% center}50%{background-position:200% center}100%{background-position:0% center}}
+.hero-subtitle{font-size:1.15rem;color:var(--text-secondary);max-width:680px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-cta{display:flex;gap:1rem;justify-content:center}
+.btn-primary,.btn-secondary{text-decoration:none;padding:1rem 2.2rem;border-radius:50px;font-weight:600;font-size:.95rem;transition:all .4s var(--transition-ease);position:relative;overflow:hidden}
+.btn-primary{background:var(--accent-color);color:var(--accent-text);box-shadow:0 4px 20px rgba(255,255,255,.1)}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 30px rgba(255,255,255,.15)}
+.btn-secondary{background:transparent;color:var(--text-primary);border:1px solid rgba(255,255,255,.12)}
+.btn-secondary:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25);transform:translateY(-3px)}
+.hero-stats{display:flex;justify-content:center;gap:4rem;flex-wrap:wrap;border-top:1px solid var(--border-color);padding-top:3rem;width:100%;position:relative;z-index:1}
+.stat-item{text-align:center}
+.stat-item h2{font-size:3.2rem;font-weight:800;line-height:1;margin-bottom:.5rem;background:linear-gradient(180deg,#fff,#888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-item p{color:var(--text-secondary);font-weight:500;text-transform:uppercase;font-size:.8rem;letter-spacing:1.5px}
+
+/* ─── MARQUEE ─── */
+.marquee-section{padding:3rem 0;overflow:hidden;border-top:1px solid var(--border-color);border-bottom:1px solid var(--border-color)}
+.marquee-track{display:flex;width:max-content;animation:marqueeScroll 25s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.marquee-item{display:flex;align-items:center;gap:2rem;padding:0 2.5rem;white-space:nowrap;font-size:1.3rem;font-weight:600;letter-spacing:-.5px;color:var(--text-secondary);transition:color .3s ease}
+.marquee-item:hover{color:var(--text-primary)}
+.marquee-dot{width:6px;height:6px;border-radius:50%;background:var(--text-secondary);flex-shrink:0}
+
+/* ─── BENTO ─── */
+.bento-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;grid-auto-rows:minmax(280px,auto)}
+.bento-item{background:var(--surface-color);padding:2.5rem;border-radius:20px;border:1px solid var(--border-color);transition:transform .5s var(--transition-ease),background .4s ease,box-shadow .4s ease,border-color .4s ease;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden}
+.bento-item:hover{background:var(--surface-hover);box-shadow:0 24px 48px rgba(0,0,0,.5);border-color:rgba(255,255,255,.1)}
+.bento-item h3{font-size:1.7rem;margin-bottom:1rem;color:var(--text-primary);font-weight:600;letter-spacing:-.5px}
+.bento-item p{color:var(--text-secondary);font-size:.95rem;line-height:1.6}
+@media(min-width:1024px){.bento-grid{grid-template-columns:repeat(3,1fr)}.large-card{grid-column:span 2;grid-row:span 2;background:linear-gradient(145deg,var(--surface-hover) 0%,var(--surface-color) 100%)}.large-card h3{font-size:2.5rem}.wide-card{grid-column:span 2}}
+
+/* ─── PORTFOLIO ─── */
+.portfolio-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem}
+.portfolio-item{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;background:var(--surface-color);aspect-ratio:16/10;border:1px solid var(--border-color);flex:1 1 350px;max-width:450px;transition:border-color .4s ease,box-shadow .4s ease}
+.portfolio-item:hover{border-color:rgba(255,255,255,.12);box-shadow:0 24px 48px rgba(0,0,0,.6)}
+.portfolio-item img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform .7s var(--transition-ease),filter .5s ease;filter:brightness(.85)}
+.portfolio-item:hover img{transform:scale(1);filter:brightness(1)}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.2) 50%,transparent 100%);display:flex;align-items:flex-end;padding:2.5rem;opacity:0;transition:opacity .4s ease}
+.portfolio-item:hover .overlay{opacity:1}
+.overlay h3{color:var(--text-primary);font-size:1.7rem;font-weight:600;letter-spacing:-.5px}
+
+/* ─── PROCESS ─── */
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.step{padding:2.5rem;border-radius:20px;background:var(--surface-color);border:1px solid var(--border-color);transition:transform .5s var(--transition-ease),background .4s ease,border-color .4s ease,box-shadow .4s ease;position:relative;overflow:hidden}
+.step:hover{transform:translateY(-6px);background:var(--surface-hover);border-color:rgba(255,255,255,.1);box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.step-num{font-size:4rem;font-weight:800;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;line-height:1;letter-spacing:-2px}
+.step-info h4{font-size:1.4rem;color:var(--text-primary);margin-bottom:.5rem;font-weight:600}
+.step-info p{color:var(--text-secondary);line-height:1.6}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials-section{padding:6rem 0}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+.testimonial-card{background:var(--surface-color);border:1px solid var(--border-color);border-radius:20px;padding:2.5rem;transition:transform .5s var(--transition-ease),box-shadow .4s ease,border-color .4s ease}
+.testimonial-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.4);border-color:rgba(255,255,255,.1)}
+.testimonial-quote{font-size:1.05rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1.5rem;font-style:italic}
+.testimonial-quote::before{content:'"';font-size:3rem;color:rgba(255,255,255,.08);font-style:normal;display:block;line-height:1;margin-bottom:.5rem;font-weight:800}
+.testimonial-author{display:flex;align-items:center;gap:.8rem}
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#333,#555);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:var(--text-primary);flex-shrink:0}
+.testimonial-name{font-weight:600;font-size:.95rem;color:var(--text-primary)}
+.testimonial-role{font-size:.8rem;color:var(--text-secondary)}
+
+/* ─── CONTACT ─── */
+.contact-info-container{background:linear-gradient(145deg,var(--surface-color) 0%,#030303 100%);padding:3rem;border-radius:20px;border:1px solid var(--border-color);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.contact-info-container h3{font-size:1.8rem;margin-bottom:1rem;color:var(--text-primary);font-weight:600;letter-spacing:-.5px}
+.contact-info-container>p{color:var(--text-secondary);margin-bottom:2.5rem;font-size:1rem;line-height:1.6}
+.footer-copy{margin-top:3rem;color:var(--text-secondary);font-size:.85rem}
+
+/* ─── MODAL ─── */
+.modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);opacity:0;transition:opacity .4s ease}
+.modal.show{display:flex;align-items:center;justify-content:center;opacity:1}
+.modal-content{background:var(--surface-color);padding:3rem;border:1px solid var(--border-color);border-radius:20px;width:90%;max-width:600px;position:relative;transform:translateY(30px) scale(.95);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.modal.show .modal-content{transform:translateY(0) scale(1)}
+.close-btn{color:var(--text-secondary);position:absolute;top:1.5rem;right:2rem;font-size:2.5rem;font-weight:300;cursor:pointer;transition:color .3s ease,transform .3s ease;line-height:1}
+.close-btn:hover{color:var(--text-primary);transform:rotate(90deg)}
+.modal-content h2{color:var(--text-primary);margin-bottom:1.5rem;font-size:2rem;letter-spacing:-1px}
+.modal-content p{color:var(--text-secondary);line-height:1.7;font-size:1.05rem}
+
+/* ─── BACK TO TOP ─── */
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:90;opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease,background .3s ease;pointer-events:none;text-decoration:none;color:var(--text-primary);font-size:1.2rem}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+@keyframes subtleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.bento-item.visible,.step.visible,.testimonial-card.visible{animation:subtleFloat 6s ease-in-out infinite;animation-delay:var(--float-delay,0s)}
+@media(prefers-reduced-motion:reduce){.reveal-element,.reveal-left,.reveal-right,.reveal-flip,.reveal-zoom,.reveal-rotate{transition:opacity .3s ease!important;transform:none!important}.bento-item.visible,.step.visible,.testimonial-card.visible{animation:none}}
+@media(max-width:768px){.logo-large{font-size:3rem;letter-spacing:-1.5px}.section-header h1{font-size:2rem}.navbar{gap:0;padding:.3rem}.nav-btn{padding:.5rem .8rem;font-size:.75rem}.portfolio-item{flex:1 1 100%;max-width:100%}.hero-stats{gap:2rem}.hero-cta{flex-direction:column;align-items:center}.testimonials-grid{grid-template-columns:1fr}}
+    </style>
 </head>
 <body>
     <div class="scroll-progress" id="scrollProgress"></div>
@@ -24,257 +155,309 @@
     </div>
 
     <main class="content-container">
-        <!-- Hero Section -->
         <section id="hero" class="hero section-scroll">
-            <div class="hero-content reveal-element">
+            <div class="hero-content">
                 <p class="eyebrow"><span class="typewriter">Creative Mind. Real Impact.</span></p>
                 <h1 class="logo-large">Graphics X Bros</h1>
                 <p class="hero-subtitle">We design scroll-stopping thumbnails, high-impact creatives, and engaging visual identities that help creators and brands stand out in a crowded digital space.</p>
-                <div class="hero-cta reveal-element">
+                <div class="hero-cta">
                     <a href="#portfolio" class="btn-primary">View Our Work</a>
                     <a href="#contact" class="btn-secondary">Let's Talk</a>
                 </div>
             </div>
-            <div class="hero-stats reveal-element">
-                <div class="stat-item">
-                    <h2 class="counter" data-target="150">0</h2>
-                    <p>Completed Projects</p>
-                </div>
-                <div class="stat-item">
-                    <!-- Added + sign inside span to style alongside number if needed -->
-                    <h2><span class="counter" data-target="5">0</span>+</h2>
-                    <p>Years of Experience</p>
-                </div>
-                <div class="stat-item">
-                    <h2><span class="counter" data-target="99">0</span>%</h2>
-                    <p>Happy Clients</p>
-                </div>
+            <div class="hero-stats">
+                <div class="stat-item"><h2 class="counter" data-target="150">0</h2><p>Completed Projects</p></div>
+                <div class="stat-item"><h2><span class="counter" data-target="5">0</span>+</h2><p>Years of Experience</p></div>
+                <div class="stat-item"><h2><span class="counter" data-target="99">0</span>%</h2><p>Happy Clients</p></div>
             </div>
         </section>
 
-        <!-- Marquee Ticker -->
         <section class="marquee-section reveal-zoom">
             <div class="marquee-track">
-                <!-- Double the items to make the infinite scroll seamless -->
-                <div class="marquee-item">Creative Direction</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Video Editing</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Graphic Design</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Branding</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Thumbnails</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Content Strategy</div>
-                <div class="marquee-dot"></div>
-                
-                <div class="marquee-item">Creative Direction</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Video Editing</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Graphic Design</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Branding</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Thumbnails</div>
-                <div class="marquee-dot"></div>
-                <div class="marquee-item">Content Strategy</div>
-                <div class="marquee-dot"></div>
+                <div class="marquee-item">Creative Direction</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Video Editing</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Graphic Design</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Branding</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Thumbnails</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Content Strategy</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Creative Direction</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Video Editing</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Graphic Design</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Branding</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Thumbnails</div><div class="marquee-dot"></div>
+                <div class="marquee-item">Content Strategy</div><div class="marquee-dot"></div>
             </div>
         </section>
 
-        <!-- Services Section -->
         <section id="services" class="section-scroll">
             <div class="section-header reveal-left">
                 <p class="section-eyebrow">[01 Services]</p>
                 <h1>Not just services — we deliver growth, clarity, and real impact.</h1>
             </div>
-            
             <div class="bento-grid">
-                <div class="bento-item large-card reveal-element stagger-1">
-                    <h3>Thumbnail Making</h3>
-                    <p>Strategic thumbnail designs crafted to stop the scroll, increase clicks, and make your content stand out in crowded feeds. We merge psychology with striking aesthetics.</p>
-                </div>
-                <div class="bento-item reveal-rotate stagger-2">
-                    <h3>Video Editing</h3>
-                    <p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing and add dynamic transitions.</p>
-                </div>
-                <div class="bento-item reveal-rotate stagger-3">
-                    <h3>Graphic Designing</h3>
-                    <p>Modern logos, branding identities, and bespoke graphic assets. Translate your vision into a striking visual language.</p>
-                </div>
-                <div class="bento-item reveal-rotate stagger-4">
-                    <h3>Photo Editing</h3>
-                    <p>Color grading, retouching, and composition to bring out the very best in your shots. We make every pixel count.</p>
-                </div>
-                <div class="bento-item wide-card reveal-element stagger-5">
-                    <h3>Poster & Banner Editing</h3>
-                    <p>Striking visual layouts perfectly scaled for YouTube, Twitter, Twitch, or physical print. Build your brand presence everywhere you go.</p>
-                </div>
+                <div class="bento-item large-card reveal-element stagger-1"><h3>Thumbnail Making</h3><p>Strategic thumbnail designs crafted to stop the scroll, increase clicks, and make your content stand out in crowded feeds. We merge psychology with striking aesthetics.</p></div>
+                <div class="bento-item reveal-rotate stagger-2"><h3>Video Editing</h3><p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing and add dynamic transitions.</p></div>
+                <div class="bento-item reveal-rotate stagger-3"><h3>Graphic Designing</h3><p>Modern logos, branding identities, and bespoke graphic assets. Translate your vision into a striking visual language.</p></div>
+                <div class="bento-item reveal-rotate stagger-4"><h3>Photo Editing</h3><p>Color grading, retouching, and composition to bring out the very best in your shots. We make every pixel count.</p></div>
+                <div class="bento-item wide-card reveal-element stagger-5"><h3>Poster & Banner Editing</h3><p>Striking visual layouts perfectly scaled for YouTube, Twitter, Twitch, or physical print.</p></div>
             </div>
         </section>
 
-        <!-- Portfolio Section -->
         <section id="portfolio" class="section-scroll">
             <div class="section-header reveal-right">
                 <p class="section-eyebrow">[02 Our Work]</p>
                 <h1>A closer look at our creativity. We let our results speak for themselves.</h1>
             </div>
             <div class="portfolio-grid">
-                <div class="portfolio-item reveal-element stagger-1">
-                    <img src="video_editing.png" alt="Video Editing Project">
-                    <div class="overlay">
-                        <h3>Cinematic Edits</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item reveal-element stagger-2">
-                    <img src="graphic_design.png" alt="Graphic Design Project">
-                    <div class="overlay">
-                        <h3>Brand Identity</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item reveal-element stagger-3">
-                    <img src="photo_editing.png" alt="Photo Editing Project">
-                    <div class="overlay">
-                        <h3>Color Grading</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item reveal-element stagger-4">
-                    <img src="thumbnail_making.png" alt="Thumbnail Making Project">
-                    <div class="overlay">
-                        <h3>High-CTR Thumbnails</h3>
-                    </div>
-                </div>
-                <div class="portfolio-item reveal-element stagger-5">
-                    <img src="poster_banner.png" alt="Poster & Banner Editing Project">
-                    <div class="overlay">
-                        <h3>Social Banners</h3>
-                    </div>
-                </div>
+                <div class="portfolio-item reveal-element stagger-1"><img src="video_editing.png" alt="Video Editing"><div class="overlay"><h3>Cinematic Edits</h3></div></div>
+                <div class="portfolio-item reveal-element stagger-2"><img src="graphic_design.png" alt="Graphic Design"><div class="overlay"><h3>Brand Identity</h3></div></div>
+                <div class="portfolio-item reveal-element stagger-3"><img src="photo_editing.png" alt="Photo Editing"><div class="overlay"><h3>Color Grading</h3></div></div>
+                <div class="portfolio-item reveal-element stagger-4"><img src="thumbnail_making.png" alt="Thumbnails"><div class="overlay"><h3>High-CTR Thumbnails</h3></div></div>
+                <div class="portfolio-item reveal-element stagger-5"><img src="poster_banner.png" alt="Poster & Banner"><div class="overlay"><h3>Social Banners</h3></div></div>
             </div>
         </section>
 
-        <!-- Process Section -->
         <section id="process" class="section-scroll">
             <div class="section-header reveal-left">
                 <p class="section-eyebrow">[03 Workflow]</p>
                 <h1>You'll get more than just great design — you'll get a proven process.</h1>
             </div>
             <div class="process-steps">
-                <div class="step reveal-flip stagger-1">
-                    <div class="step-num">01</div>
-                    <div class="step-info">
-                        <h4>Understand</h4>
-                        <p>Deep understanding of your business, audience, and goals to form the foundation of a tailored strategy.</p>
-                    </div>
-                </div>
-                <div class="step reveal-flip stagger-2">
-                    <div class="step-num">02</div>
-                    <div class="step-info">
-                        <h4>Ideate</h4>
-                        <p>We brainstorm click-worthy concepts leveraging current trends, psychology, and your unique brand voice.</p>
-                    </div>
-                </div>
-                <div class="step reveal-flip stagger-3">
-                    <div class="step-num">03</div>
-                    <div class="step-info">
-                        <h4>Create</h4>
-                        <p>We craft high-quality, scroll-stopping visuals, providing transparent updates so you're always in the loop.</p>
-                    </div>
-                </div>
-                <div class="step reveal-flip stagger-4">
-                    <div class="step-num">04</div>
-                    <div class="step-info">
-                        <h4>Polish</h4>
-                        <p>We refine and revise based on your feedback, aiming for perfection before delivering the final assets.</p>
-                    </div>
-                </div>
+                <div class="step reveal-flip stagger-1"><div class="step-num">01</div><div class="step-info"><h4>Understand</h4><p>Deep understanding of your business, audience, and goals to form the foundation of a tailored strategy.</p></div></div>
+                <div class="step reveal-flip stagger-2"><div class="step-num">02</div><div class="step-info"><h4>Ideate</h4><p>We brainstorm click-worthy concepts leveraging current trends, psychology, and your unique brand voice.</p></div></div>
+                <div class="step reveal-flip stagger-3"><div class="step-num">03</div><div class="step-info"><h4>Create</h4><p>We craft high-quality, scroll-stopping visuals, providing transparent updates so you're always in the loop.</p></div></div>
+                <div class="step reveal-flip stagger-4"><div class="step-num">04</div><div class="step-info"><h4>Polish</h4><p>We refine and revise based on your feedback, aiming for perfection before delivering the final assets.</p></div></div>
             </div>
         </section>
 
-        <!-- Testimonials Section -->
-        <section class="testimonials-section section-scroll reveal-element">
-            <div class="section-header">
+        <section class="testimonials-section section-scroll">
+            <div class="section-header reveal-element">
                 <p class="section-eyebrow">[04 Client Love]</p>
                 <h1>Don't just take our word for it. Hear from those we've partnered with.</h1>
             </div>
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">Graphics X Bros completely transformed my YouTube channel's aesthetic. My CTR went from 4% to 11% in just two weeks thanks to their incredible custom thumbnails!</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">G</div>
-                        <div>
-                            <p class="testimonial-name">Gaurav</p>
-                            <p class="testimonial-role">Content Creator, 500k Subs</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">Their video editing is top-tier. They somehow managed to take my raw, messy footage and turn it into a highly engaging and cinematic masterpiece. Highly recommend!</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">A</div>
-                        <div>
-                            <p class="testimonial-name">Aditya</p>
-                            <p class="testimonial-role">Tech Vlogger</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">We hired them for a complete brand overhaul and the results were phenomenal. The new logos and banners gave us a premium look that immediately elevated our brand perception.</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">N</div>
-                        <div>
-                            <p class="testimonial-name">Nayan Pathankar</p>
-                            <p class="testimonial-role">CEO, TechStartup</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="testimonial-card reveal-element stagger-1"><p class="testimonial-quote">Graphics X Bros completely transformed my YouTube channel's aesthetic. My CTR went from 4% to 11% in just two weeks thanks to their incredible custom thumbnails!</p><div class="testimonial-author"><div class="testimonial-avatar">G</div><div><p class="testimonial-name">Gaurav</p><p class="testimonial-role">Content Creator, 500k Subs</p></div></div></div>
+                <div class="testimonial-card reveal-element stagger-2"><p class="testimonial-quote">Their video editing is top-tier. They somehow managed to take my raw, messy footage and turn it into a highly engaging and cinematic masterpiece. Highly recommend!</p><div class="testimonial-author"><div class="testimonial-avatar">A</div><div><p class="testimonial-name">Aditya</p><p class="testimonial-role">Tech Vlogger</p></div></div></div>
+                <div class="testimonial-card reveal-element stagger-3"><p class="testimonial-quote">We hired them for a complete brand overhaul and the results were phenomenal. The new logos and banners gave us a premium look that immediately elevated our brand perception.</p><div class="testimonial-author"><div class="testimonial-avatar">N</div><div><p class="testimonial-name">Nayan Pathankar</p><p class="testimonial-role">CEO, TechStartup</p></div></div></div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="section-scroll">
-             <div class="section-header reveal-right">
+            <div class="section-header reveal-right">
                 <p class="section-eyebrow">[05 Get In Touch]</p>
-                <h1>Have a vision? Let’s make a plan. Reach out and start your creative journey.</h1>
+                <h1>Have a vision? Let's make a plan. Reach out and start your creative journey.</h1>
             </div>
-            
-            <div style="display: flex; justify-content: center; width: 100%;">
-                <div class="contact-info-container reveal-zoom" style="width: 100%; max-width: 600px; text-align: center; align-items: center;">
-                    <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Let's Connect</h3>
+            <div style="display:flex;justify-content:center;width:100%">
+                <div class="contact-info-container reveal-zoom" style="width:100%;max-width:600px;text-align:center;align-items:center">
+                    <h3 style="font-size:2.2rem;margin-bottom:1.5rem">Let's Connect</h3>
                     <p>Want to work together? Hit us up on Instagram — let's make something epic.</p>
-                    <a href="https://www.instagram.com/graphicsxbros.studio/" target="_blank" class="btn-primary" style="margin-top: 2.5rem; display: inline-flex; align-items: center; gap: 10px;">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
+                    <a href="https://www.instagram.com/graphicsxbros.studio/" target="_blank" class="btn-primary" style="margin-top:2.5rem;display:inline-flex;align-items:center;gap:10px">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                         @graphicsxbros.studio
                     </a>
-                    <div class="footer-copy" style="margin-top: 4rem;">
-                        <p>&copy; 2026 Graphics X Bros. All rights reserved.</p>
-                    </div>
+                    <div class="footer-copy" style="margin-top:4rem"><p>&copy; 2026 Graphics X Bros. All rights reserved.</p></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Back to Top Button -->
-    <a href="#hero" class="back-to-top" id="backToTop" aria-label="Back to top">
-        ↑
-    </a>
+    <a href="#hero" class="back-to-top" id="backToTop">↑</a>
 
-    <!-- Project Modal -->
     <div id="project-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
-            <h2 id="modal-title">Item Title</h2>
-            <p id="modal-description">This is where you can showcase your project's background story, what software was used, how long it took, or add a link to a high-resolution version. You can dynamically inject specific project data here via JS based on the item clicked.</p>
+            <h2 id="modal-title">Title</h2>
+            <p id="modal-description">Details loading...</p>
         </div>
     </div>
 
-    <script src="script.js"></script>
+<script>
+window.addEventListener('load', function () {
+    var countersAnimated = false, ticking = false;
 
+    // Scroll progress
+    function updateScrollProgress() {
+        var st = window.pageYOffset || document.documentElement.scrollTop;
+        var sh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        document.documentElement.style.setProperty('--scroll-progress', sh > 0 ? (st / sh).toFixed(4) : 0);
+    }
+
+    // ── INTERSECTION OBSERVER ──
+    var animated = document.querySelectorAll('.reveal-element,.reveal-left,.reveal-right,.reveal-flip,.reveal-zoom,.reveal-rotate');
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+                if (entry.target.classList.contains('hero-stats') && !countersAnimated) {
+                    animateCounters(); countersAnimated = true;
+                }
+            }
+        });
+    }, { rootMargin: '0px 0px -50px 0px', threshold: 0.05 });
+
+    // Delay start so browser paints initial hidden state first
+    setTimeout(function () {
+        animated.forEach(function (el) {
+            if (!el.closest('#hero')) observer.observe(el);
+        });
+    }, 100);
+
+    // ── HERO STAGGER ──
+    var heroEls = [document.querySelector('.hero-content'), document.querySelector('.hero-stats')];
+    heroEls.forEach(function (el, i) {
+        if (!el) return;
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(40px)';
+        el.style.transition = 'opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1)';
+        setTimeout(function () {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+            if (el.classList.contains('hero-stats') && !countersAnimated) {
+                animateCounters(); countersAnimated = true;
+            }
+        }, 300 + i * 350);
+    });
+
+    // ── PARALLAX ──
+    function updateParallax() {
+        var sy = window.pageYOffset, vh = window.innerHeight;
+        var hc = document.querySelector('.hero-content');
+        if (hc && sy < vh) {
+            hc.style.transform = 'translateY(' + (sy * 0.25) + 'px) scale(' + (1 - (sy / vh) * 0.07) + ')';
+            hc.style.opacity = Math.max(1 - (sy / vh) * 0.55, 0);
+        }
+        var hs = document.querySelector('.hero-stats');
+        if (hs && sy < vh) hs.style.transform = 'translateY(' + (sy * 0.12) + 'px)';
+    }
+
+    // ── NAV HIGHLIGHT ──
+    var navSecs = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.nav-btn');
+    function updateNav() {
+        var cur = '', sy = window.pageYOffset;
+        navSecs.forEach(function (s) {
+            if (sy >= s.offsetTop - 150 && sy < s.offsetTop + s.clientHeight) cur = s.id;
+        });
+        navLinks.forEach(function (l) { l.classList.toggle('active', l.getAttribute('href') === '#' + cur); });
+    }
+
+    // ── BACK TO TOP ──
+    function updateBackToTop() {
+        var b = document.getElementById('backToTop');
+        if (b) b.classList.toggle('visible', window.pageYOffset > 500);
+    }
+
+    // ── SCROLL HANDLER ──
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(function () {
+                updateScrollProgress(); updateParallax(); updateNav(); updateBackToTop();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    updateScrollProgress();
+
+    // ── COUNTERS ──
+    function animateCounters() {
+        document.querySelectorAll('.counter').forEach(function (c) {
+            var target = +c.getAttribute('data-target'), start = performance.now(), dur = 2000;
+            (function step(now) {
+                var p = Math.min((now - start) / dur, 1), e = p * (2 - p);
+                c.innerText = Math.floor(target * e);
+                if (p < 1) requestAnimationFrame(step); else c.innerText = target;
+            })(performance.now());
+        });
+    }
+
+    // ── TYPEWRITER ──
+    var tw = document.querySelector('.typewriter');
+    if (tw) {
+        var txt = tw.innerText; tw.innerText = ''; var i = 0;
+        setTimeout(function () {
+            (function type() { if (i < txt.length) { tw.innerHTML += txt.charAt(i++); setTimeout(type, 55); } })();
+        }, 700);
+    }
+
+    // ── PARTICLES ──
+    var cv = document.getElementById('bg-canvas');
+    if (cv) {
+        var cx = cv.getContext('2d'), W, H, parts = [], mouse = { x: -1e3, y: -1e3 };
+        function initCv() {
+            W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; parts = [];
+            for (var k = 0, n = Math.min((W * H) / 15000, 100); k < n; k++)
+                parts.push({ x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+.5, vx: (Math.random()-.5)*.5, vy: (Math.random()-.5)*.5, a: Math.random()*.3+.1 });
+        }
+        window.addEventListener('resize', function () { clearTimeout(window._rz); window._rz = setTimeout(initCv, 200); });
+        window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseleave', function () { mouse.x = -1e3; mouse.y = -1e3; });
+        initCv();
+        (function draw() {
+            cx.clearRect(0, 0, W, H);
+            parts.forEach(function (p) {
+                p.x = (p.x + p.vx + W) % W; p.y = (p.y + p.vy + H) % H;
+                var dx = mouse.x - p.x, dy = mouse.y - p.y, d = Math.sqrt(dx*dx + dy*dy), a = p.a, s = p.r;
+                if (d < 150) {
+                    var inf = (150-d)/150; a += inf*.5; s += inf*1.5;
+                    p.x -= dx*.01; p.y -= dy*.01;
+                    cx.beginPath(); cx.moveTo(p.x,p.y); cx.lineTo(mouse.x,mouse.y);
+                    cx.strokeStyle = 'rgba(255,255,255,'+(inf*.1)+')'; cx.stroke();
+                }
+                cx.beginPath(); cx.arc(p.x,p.y,s,0,Math.PI*2);
+                cx.fillStyle = 'rgba(255,255,255,'+a+')'; cx.fill();
+            });
+            requestAnimationFrame(draw);
+        })();
+    }
+
+    // ── TILT ──
+    document.querySelectorAll('.bento-item,.portfolio-item,.testimonial-card').forEach(function (el) {
+        el.addEventListener('mousemove', function (e) {
+            var r = el.getBoundingClientRect();
+            var rx = ((e.clientY-r.top)/r.height-.5)*-10, ry = ((e.clientX-r.left)/r.width-.5)*10;
+            el.style.transform = 'perspective(1000px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateZ(10px)';
+            el.style.transition = 'transform .1s ease';
+        });
+        el.addEventListener('mouseleave', function () {
+            el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            el.style.transition = 'transform .6s cubic-bezier(.22,1,.36,1)';
+        });
+    });
+
+    // ── SMOOTH SCROLL ──
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            e.preventDefault();
+            var id = this.getAttribute('href'); if (id === '#') return;
+            var t = document.querySelector(id);
+            if (t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+        });
+    });
+
+    // ── MODAL ──
+    var modal = document.getElementById('project-modal');
+    var details = { 'Cinematic Edits':'Transformed hours of raw footage into a cinematic highlight reel with custom LUTs and dynamic pacing.','Brand Identity':'Full brand package — logo, typography, color palette, and social media templates.','Color Grading':'Cinematic teal-and-orange grade applied to flat log footage to transform the mood.','High-CTR Thumbnails':'High-contrast thumbnail series that boosted click-through rate by 150%.','Social Banners':'Scalable banner art for Twitter, YouTube, and LinkedIn ensuring consistent branding.' };
+    document.querySelectorAll('.portfolio-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+            var t = item.querySelector('.overlay h3').innerText;
+            document.getElementById('modal-title').innerText = t;
+            document.getElementById('modal-description').innerText = details[t] || 'Coming soon...';
+            modal.style.display = 'flex';
+            setTimeout(function () { modal.classList.add('show'); document.body.style.overflow = 'hidden'; }, 10);
+        });
+    });
+    function closeModal() { modal.classList.remove('show'); document.body.style.overflow = ''; setTimeout(function () { modal.style.display = 'none'; }, 400); }
+    var cb = document.querySelector('.close-btn'); if (cb) cb.addEventListener('click', closeModal);
+    window.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
+
+    // ── FLOAT DELAYS ──
+    document.querySelectorAll('.bento-item,.step,.testimonial-card').forEach(function (el, i) {
+        el.style.setProperty('--float-delay', (i * 0.5) + 's');
+    });
+});
+</script>
 </body>
 </html>
