@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Shared state — declared first to avoid TDZ issues
+    let countersAnimated = false;
+    let ticking = false;
+
     // ===================================================================
     // 1. SCROLL PROGRESS BAR
     // ===================================================================
@@ -37,8 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.1
     });
 
-    allAnimatedElements.forEach(el => {
-        revealObserver.observe(el);
+    // Double RAF ensures the browser paints the initial hidden state BEFORE
+    // IntersectionObserver fires — fixes the "no animation on page load" issue
+    // when opening as a local file in Chrome.
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            allAnimatedElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
     });
 
     // ===================================================================
@@ -80,9 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================================================
     // 4. SCROLL EVENT — Combines progress, parallax, nav highlight
     // ===================================================================
-    let ticking = false;
-    let countersAnimated = false;
-
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(() => {
@@ -153,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, index * 250);
         });
-    }, 100);
+    }, 300);
 
     // ===================================================================
     // 8. COUNTER ANIMATION

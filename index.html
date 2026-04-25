@@ -275,16 +275,6 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Fallback: if animations haven't triggered after 2s, force-show everything
-        setTimeout(function() {
-            var els = document.querySelectorAll('.reveal-element, .reveal-left, .reveal-right, .reveal-flip, .reveal-zoom, .reveal-rotate');
-            els.forEach(function(el) {
-                if (!el.classList.contains('visible')) {
-                    el.classList.add('visible');
-                }
-            });
-        }, 2000);
-    </script>
+
 </body>
 </html>
