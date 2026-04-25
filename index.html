@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
     <canvas id="bg-canvas"></canvas>
 
     <div class="navbar-wrapper">
@@ -52,7 +53,7 @@
         </section>
 
         <!-- Marquee Ticker -->
-        <section class="marquee-section reveal-element">
+        <section class="marquee-section reveal-zoom">
             <div class="marquee-track">
                 <!-- Double the items to make the infinite scroll seamless -->
                 <div class="marquee-item">Creative Direction</div>
@@ -85,29 +86,29 @@
 
         <!-- Services Section -->
         <section id="services" class="section-scroll">
-            <div class="section-header reveal-element">
+            <div class="section-header reveal-left">
                 <p class="section-eyebrow">[01 Services]</p>
                 <h1>Not just services — we deliver growth, clarity, and real impact.</h1>
             </div>
             
             <div class="bento-grid">
-                <div class="bento-item large-card reveal-element">
+                <div class="bento-item large-card reveal-element stagger-1">
                     <h3>Thumbnail Making</h3>
                     <p>Strategic thumbnail designs crafted to stop the scroll, increase clicks, and make your content stand out in crowded feeds. We merge psychology with striking aesthetics.</p>
                 </div>
-                <div class="bento-item reveal-element">
+                <div class="bento-item reveal-rotate stagger-2">
                     <h3>Video Editing</h3>
                     <p>High-quality edits to make your footage cinematic, engaging, and professional. We optimize pacing and add dynamic transitions.</p>
                 </div>
-                <div class="bento-item reveal-element">
+                <div class="bento-item reveal-rotate stagger-3">
                     <h3>Graphic Designing</h3>
                     <p>Modern logos, branding identities, and bespoke graphic assets. Translate your vision into a striking visual language.</p>
                 </div>
-                <div class="bento-item reveal-element">
+                <div class="bento-item reveal-rotate stagger-4">
                     <h3>Photo Editing</h3>
                     <p>Color grading, retouching, and composition to bring out the very best in your shots. We make every pixel count.</p>
                 </div>
-                <div class="bento-item wide-card reveal-element">
+                <div class="bento-item wide-card reveal-element stagger-5">
                     <h3>Poster & Banner Editing</h3>
                     <p>Striking visual layouts perfectly scaled for YouTube, Twitter, Twitch, or physical print. Build your brand presence everywhere you go.</p>
                 </div>
@@ -116,36 +117,36 @@
 
         <!-- Portfolio Section -->
         <section id="portfolio" class="section-scroll">
-            <div class="section-header reveal-element">
+            <div class="section-header reveal-right">
                 <p class="section-eyebrow">[02 Our Work]</p>
                 <h1>A closer look at our creativity. We let our results speak for themselves.</h1>
             </div>
             <div class="portfolio-grid">
-                <div class="portfolio-item reveal-element">
+                <div class="portfolio-item reveal-element stagger-1">
                     <img src="video_editing.png" alt="Video Editing Project">
                     <div class="overlay">
                         <h3>Cinematic Edits</h3>
                     </div>
                 </div>
-                <div class="portfolio-item reveal-element">
+                <div class="portfolio-item reveal-element stagger-2">
                     <img src="graphic_design.png" alt="Graphic Design Project">
                     <div class="overlay">
                         <h3>Brand Identity</h3>
                     </div>
                 </div>
-                <div class="portfolio-item reveal-element">
+                <div class="portfolio-item reveal-element stagger-3">
                     <img src="photo_editing.png" alt="Photo Editing Project">
                     <div class="overlay">
                         <h3>Color Grading</h3>
                     </div>
                 </div>
-                <div class="portfolio-item reveal-element">
+                <div class="portfolio-item reveal-element stagger-4">
                     <img src="thumbnail_making.png" alt="Thumbnail Making Project">
                     <div class="overlay">
                         <h3>High-CTR Thumbnails</h3>
                     </div>
                 </div>
-                <div class="portfolio-item reveal-element">
+                <div class="portfolio-item reveal-element stagger-5">
                     <img src="poster_banner.png" alt="Poster & Banner Editing Project">
                     <div class="overlay">
                         <h3>Social Banners</h3>
@@ -156,33 +157,33 @@
 
         <!-- Process Section -->
         <section id="process" class="section-scroll">
-            <div class="section-header reveal-element">
+            <div class="section-header reveal-left">
                 <p class="section-eyebrow">[03 Workflow]</p>
                 <h1>You'll get more than just great design — you'll get a proven process.</h1>
             </div>
             <div class="process-steps">
-                <div class="step reveal-element">
+                <div class="step reveal-flip stagger-1">
                     <div class="step-num">01</div>
                     <div class="step-info">
                         <h4>Understand</h4>
                         <p>Deep understanding of your business, audience, and goals to form the foundation of a tailored strategy.</p>
                     </div>
                 </div>
-                <div class="step reveal-element">
+                <div class="step reveal-flip stagger-2">
                     <div class="step-num">02</div>
                     <div class="step-info">
                         <h4>Ideate</h4>
                         <p>We brainstorm click-worthy concepts leveraging current trends, psychology, and your unique brand voice.</p>
                     </div>
                 </div>
-                <div class="step reveal-element">
+                <div class="step reveal-flip stagger-3">
                     <div class="step-num">03</div>
                     <div class="step-info">
                         <h4>Create</h4>
                         <p>We craft high-quality, scroll-stopping visuals, providing transparent updates so you're always in the loop.</p>
                     </div>
                 </div>
-                <div class="step reveal-element">
+                <div class="step reveal-flip stagger-4">
                     <div class="step-num">04</div>
                     <div class="step-info">
                         <h4>Polish</h4>
@@ -234,13 +235,13 @@
 
         <!-- Contact Section -->
         <section id="contact" class="section-scroll">
-             <div class="section-header reveal-element">
+             <div class="section-header reveal-right">
                 <p class="section-eyebrow">[05 Get In Touch]</p>
                 <h1>Have a vision? Let’s make a plan. Reach out and start your creative journey.</h1>
             </div>
             
             <div style="display: flex; justify-content: center; width: 100%;">
-                <div class="contact-info-container reveal-element" style="width: 100%; max-width: 600px; text-align: center; align-items: center;">
+                <div class="contact-info-container reveal-zoom" style="width: 100%; max-width: 600px; text-align: center; align-items: center;">
                     <h3 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Let's Connect</h3>
                     <p>Want to work together? Hit us up on Instagram — let's make something epic.</p>
                     <a href="https://www.instagram.com/graphicsxbros.studio/" target="_blank" class="btn-primary" style="margin-top: 2.5rem; display: inline-flex; align-items: center; gap: 10px;">
